@@ -1,0 +1,2076 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/27/2024 10:59:43 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="LAPTOP-SNAE0A1O"
+  DTS:CreatorName="LAPTOP-SNAE0A1O\Tiago"
+  DTS:DTSID="{F427C6F0-1B34-41F4-A286-F09A96AA2C78}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5556.0"
+  DTS:LocaleID="1046"
+  DTS:ObjectName="CargaPrincipal"
+  DTS:PackageType="5"
+  DTS:VersionBuild="12"
+  DTS:VersionGUID="{0D053806-F143-4880-8065-F011E3A6230B}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Conexão com o arquivo de LOG]"
+      DTS:CreationName="FLATFILE"
+      DTS:Description="Conexão com o arquivo de LOG"
+      DTS:DTSID="{04B7977E-2695-4AF6-A04B-4486F970B1B8}"
+      DTS:ObjectName="Conexão com o arquivo de LOG">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1046"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Fontes\DATA\LOG\log.txt">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="341"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="TEXTO_LOG"
+              DTS:DTSID="{1E6D5DDA-EF2D-4359-B217-6149CC5F6BE8}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Conexão com o DataLake]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{8262C1A1-CE65-47F5-A515-E300D5E27CA3}"
+      DTS:ObjectName="Conexão com o DataLake">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=LAPTOP-SNAE0A1O;User ID=sa;Initial Catalog=DL_ATACADEZ;Provider=MSOLEDBSQL.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAFrtTq3je7E2jAE12T1y7FgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAA7JpKZ19Jm2jvMY2NFgGIgnJaQsmdA1cN6Pklsy8s6pQAAAAAOgAAAAAIAACAAAACbBu472f2tx8KLLbvZ/iDN2UzNNUOEWs5aMeB3zAopWCAAAAAc+5ea787HDk23gh7onfAhxSR+/K6ZPt2G39nDzdmGJUAAAAC4/yayzCfYgMTE2iDiAucfVxI4JTa4NOitUBPU/2PsgReJM3cfwjC2ChJi+3Sldky+TOTtTMZqku1rGVhs/PRu</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Carga do Data Lake"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Tarefa Executar Pacote"
+      DTS:DTSID="{450C502F-E303-49FA-969D-A205F7A5065D}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Carga do Data Lake"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>CargaDataLake.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Carga do Data Warehouse"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Tarefa Executar Pacote"
+      DTS:DTSID="{AC1BB796-C2ED-4364-A42B-34CA06C741FA}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Carga do Data Warehouse"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>CargaDatawarehouse.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Escreve o LOG"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Tarefa Fluxo de Dados"
+      DTS:DTSID="{1290C21F-55AF-42B4-BCA4-28CE5FCE34AE}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Escreve o LOG"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:EventHandlers>
+        <DTS:EventHandler
+          DTS:refId="Package\Escreve o LOG.EventHandlers[OnError]"
+          DTS:CreationName="OnError"
+          DTS:DTSID="{6622FBED-AF4C-4A10-A538-C5985D9D5A69}"
+          DTS:EventID="114688"
+          DTS:EventName="OnError"
+          DTS:LocaleID="-1">
+          <DTS:Variables>
+            <DTS:Variable
+              DTS:CreationName=""
+              DTS:Description="A propriedade propagate do evento"
+              DTS:DTSID="{8C446D80-588F-4CD6-A811-030AF87494E5}"
+              DTS:IncludeInDebugDump="6789"
+              DTS:Namespace="System"
+              DTS:ObjectName="Propagate">
+              <DTS:VariableValue
+                DTS:DataType="11">-1</DTS:VariableValue>
+            </DTS:Variable>
+          </DTS:Variables>
+          <DTS:Executables />
+        </DTS:EventHandler>
+      </DTS:EventHandlers>
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Escreve o LOG\Classificar por data"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Classificar;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;1"
+              description="Classifica os dados de entrada em ordem crescente ou decrescente quando eles não podem ser classificados em sua origem. Por exemplo, classifique dados de vendas por 'customer id' antes de eles serem gravados em um arquivo simples e entregues a outro departamento. Observação: essa transformação não é recomendável para fluxos de dados grandes."
+              name="Classificar por data"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica se a transformação Classificação remove linhas com valores de classificação duplicados."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica o número máximo de threads a usar para classificação."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Escreve o LOG\Classificar por data.Inputs[Classificar Entrada]"
+                  name="Classificar Entrada">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Escreve o LOG\Classificar por data.Inputs[Classificar Entrada].Columns[data]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="data"
+                      lineageId="Package\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[data]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica as opções de comparação para os dados de caractere."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica a ordem de classificação da coluna."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Escreve o LOG\Classificar por data.Inputs[Classificar Entrada].Columns[mensagem]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="mensagem"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[mensagem]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica as opções de comparação para os dados de caractere."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica a ordem de classificação da coluna."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Escreve o LOG\Classificar por data.Inputs[Classificar Entrada].Columns[resultado]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="resultado"
+                      cachedSortKeyPosition="2"
+                      lineageId="Package\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[resultado]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica as opções de comparação para os dados de caractere."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica a ordem de classificação da coluna."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Escreve o LOG\Classificar por data.Outputs[Classificar Saída]"
+                  isSorted="true"
+                  name="Classificar Saída">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[data]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[data]"
+                      name="data"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica o identificador de linhagem da coluna de entrada associada à coluna de saída."
+                          name="SortColumnId">#{Package\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[data]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[mensagem]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[mensagem]"
+                      name="mensagem">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica o identificador de linhagem da coluna de entrada associada à coluna de saída."
+                          name="SortColumnId">#{Package\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[mensagem]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[resultado]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[resultado]"
+                      name="resultado">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica o identificador de linhagem da coluna de entrada associada à coluna de saída."
+                          name="SortColumnId">#{Package\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[resultado]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Escreve o LOG\Converter a data em string"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Conversão de Dados;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;0"
+              description="Conversão de Dados"
+              name="Converter a data em string"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Escreve o LOG\Converter a data em string.Inputs[Entrada de Conversão de Dados]"
+                  name="Entrada de Conversão de Dados">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Escreve o LOG\Converter a data em string.Inputs[Entrada de Conversão de Dados].Columns[data]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="data"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[data]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Escreve o LOG\Converter a data em string.Outputs[Saída de Conversão de Dados]"
+                  exclusionGroup="1"
+                  name="Saída de Conversão de Dados"
+                  synchronousInputId="Package\Escreve o LOG\Converter a data em string.Inputs[Entrada de Conversão de Dados]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Escreve o LOG\Converter a data em string.Outputs[Saída de Conversão de Dados].Columns[DATA_CONVERTIDA]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Escreve o LOG\Converter a data em string.Outputs[Saída de Conversão de Dados].Columns[DATA_CONVERTIDA]"
+                      name="DATA_CONVERTIDA"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica a coluna de entrada usada como a origem dois dados para a conversão."
+                          name="SourceInputColumnLineageID">#{Package\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[data]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indica se a coluna usa as rotinas de análise de localidade neutro mais rápidas."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Escreve o LOG\Converter a data em string.Outputs[Saída de Erro de Conversão de Dados]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Saída de Erro de Conversão de Dados"
+                  synchronousInputId="Package\Escreve o LOG\Converter a data em string.Inputs[Entrada de Conversão de Dados]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Escreve o LOG\Converter a data em string.Outputs[Saída de Erro de Conversão de Dados].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Escreve o LOG\Converter a data em string.Outputs[Saída de Erro de Conversão de Dados].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Escreve o LOG\Converter a data em string.Outputs[Saída de Erro de Conversão de Dados].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Escreve o LOG\Converter a data em string.Outputs[Saída de Erro de Conversão de Dados].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Escreve o LOG\Cria a linha a ser escrita no LOG"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Coluna Derivada;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;0"
+              description="Cria novos valores de coluna aplicando expressões a colunas de entrada da transformação. Crie novas colunas ou substitua as existentes. Por exemplo, concatene os valores das colunas 'first name' e 'last name' para formar uma coluna 'full name'."
+              name="Cria a linha a ser escrita no LOG"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Escreve o LOG\Cria a linha a ser escrita no LOG.Inputs[Entrada de Coluna Derivada]"
+                  description="Entrada para a Transformação Coluna Derivada"
+                  name="Entrada de Coluna Derivada">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Escreve o LOG\Cria a linha a ser escrita no LOG.Inputs[Entrada de Coluna Derivada].Columns[mensagem]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="mensagem"
+                      lineageId="Package\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[mensagem]" />
+                    <inputColumn
+                      refId="Package\Escreve o LOG\Cria a linha a ser escrita no LOG.Inputs[Entrada de Coluna Derivada].Columns[resultado]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="resultado"
+                      lineageId="Package\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[resultado]" />
+                    <inputColumn
+                      refId="Package\Escreve o LOG\Cria a linha a ser escrita no LOG.Inputs[Entrada de Coluna Derivada].Columns[DATA_CONVERTIDA]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="DATA_CONVERTIDA"
+                      lineageId="Package\Escreve o LOG\Converter a data em string.Outputs[Saída de Conversão de Dados].Columns[DATA_CONVERTIDA]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Escreve o LOG\Cria a linha a ser escrita no LOG.Outputs[Saída de Coluna Derivada]"
+                  description="Saída Padrão da Transformação Coluna Derivada"
+                  exclusionGroup="1"
+                  name="Saída de Coluna Derivada"
+                  synchronousInputId="Package\Escreve o LOG\Cria a linha a ser escrita no LOG.Inputs[Entrada de Coluna Derivada]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Escreve o LOG\Cria a linha a ser escrita no LOG.Outputs[Saída de Coluna Derivada].Columns[TEXTO_LOG]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computação"
+                      errorRowDisposition="FailComponent"
+                      length="341"
+                      lineageId="Package\Escreve o LOG\Cria a linha a ser escrita no LOG.Outputs[Saída de Coluna Derivada].Columns[TEXTO_LOG]"
+                      name="TEXTO_LOG"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expressão de Coluna Derivada"
+                          name="Expression">#{Package\Escreve o LOG\Converter a data em string.Outputs[Saída de Conversão de Dados].Columns[DATA_CONVERTIDA]} + " : (" + #{Package\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[resultado]} + ") " + #{Package\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[mensagem]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expressão Amigável de Coluna Derivada"
+                          expressionType="Notify"
+                          name="FriendlyExpression">DATA_CONVERTIDA + " : (" + resultado + ") " + mensagem</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Escreve o LOG\Cria a linha a ser escrita no LOG.Outputs[Saída de Erro de Coluna Derivada]"
+                  description="Saída de Erro da Transformação Coluna Derivada"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Saída de Erro de Coluna Derivada"
+                  synchronousInputId="Package\Escreve o LOG\Cria a linha a ser escrita no LOG.Inputs[Entrada de Coluna Derivada]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Escreve o LOG\Cria a linha a ser escrita no LOG.Outputs[Saída de Erro de Coluna Derivada].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Escreve o LOG\Cria a linha a ser escrita no LOG.Outputs[Saída de Erro de Coluna Derivada].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Escreve o LOG\Cria a linha a ser escrita no LOG.Outputs[Saída de Erro de Coluna Derivada].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Escreve o LOG\Cria a linha a ser escrita no LOG.Outputs[Saída de Erro de Coluna Derivada].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Escreve o LOG\Eliminar linhas repetidas"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Classificar;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;1"
+              description="Classifica os dados de entrada em ordem crescente ou decrescente quando eles não podem ser classificados em sua origem. Por exemplo, classifique dados de vendas por 'customer id' antes de eles serem gravados em um arquivo simples e entregues a outro departamento. Observação: essa transformação não é recomendável para fluxos de dados grandes."
+              name="Eliminar linhas repetidas"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indica se a transformação Classificação remove linhas com valores de classificação duplicados."
+                  name="EliminateDuplicates">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica o número máximo de threads a usar para classificação."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Escreve o LOG\Eliminar linhas repetidas.Inputs[Classificar Entrada]"
+                  name="Classificar Entrada">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Escreve o LOG\Eliminar linhas repetidas.Inputs[Classificar Entrada].Columns[data]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="data"
+                      lineageId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[data]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica as opções de comparação para os dados de caractere."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica a ordem de classificação da coluna."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Escreve o LOG\Eliminar linhas repetidas.Inputs[Classificar Entrada].Columns[mensagem]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="mensagem"
+                      lineageId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[mensagem]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica as opções de comparação para os dados de caractere."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica a ordem de classificação da coluna."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Escreve o LOG\Eliminar linhas repetidas.Inputs[Classificar Entrada].Columns[resultado]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="resultado"
+                      lineageId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[resultado]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica as opções de comparação para os dados de caractere."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Especifica a ordem de classificação da coluna."
+                          name="NewSortKeyPosition">2</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída]"
+                  isSorted="true"
+                  name="Classificar Saída">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[data]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[data]"
+                      name="data">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica o identificador de linhagem da coluna de entrada associada à coluna de saída."
+                          name="SortColumnId">#{Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[data]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[mensagem]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[mensagem]"
+                      name="mensagem"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica o identificador de linhagem da coluna de entrada associada à coluna de saída."
+                          name="SortColumnId">#{Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[mensagem]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[resultado]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[resultado]"
+                      name="resultado"
+                      sortKeyPosition="2">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Especifica o identificador de linhagem da coluna de entrada associada à coluna de saída."
+                          name="SortColumnId">#{Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[resultado]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Escreve o LOG\Escrever arquivo de LOG"
+              componentClassID="Microsoft.FlatFileDestination"
+              contactInfo="Destino de Arquivo Simples;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;1"
+              description="Destino de Arquivo Simples"
+              localeId="1046"
+              name="Escrever arquivo de LOG"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Especifica se os dados substituirão o arquivo de destino ou serão anexados a ele."
+                  name="Overwrite">true</property>
+                <property
+                  dataType="System.Null"
+                  description="Especifica o texto a ser gravado no arquivo de destino antes da gravação de quaisquer dados."
+                  expressionType="Notify"
+                  name="Header" />
+                <property
+                  dataType="System.Boolean"
+                  description="Quando o qualificador de texto está habilitado, ele especifica se o qualificador de texto nos dados gravados no arquivo de destino serão de saída ou não."
+                  name="EscapeQualifier">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Escreve o LOG\Escrever arquivo de LOG.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Conexão com o arquivo de LOG]"
+                  connectionManagerRefId="Package.ConnectionManagers[Conexão com o arquivo de LOG]"
+                  name="FlatFileConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Escreve o LOG\Escrever arquivo de LOG.Inputs[Entrada de Destino de Arquivo Simples]"
+                  hasSideEffects="true"
+                  name="Entrada de Destino de Arquivo Simples">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Escreve o LOG\Escrever arquivo de LOG.Inputs[Entrada de Destino de Arquivo Simples].Columns[TEXTO_LOG]"
+                      cachedDataType="wstr"
+                      cachedLength="341"
+                      cachedName="TEXTO_LOG"
+                      externalMetadataColumnId="Package\Escreve o LOG\Escrever arquivo de LOG.Inputs[Entrada de Destino de Arquivo Simples].ExternalColumns[TEXTO_LOG]"
+                      lineageId="Package\Escreve o LOG\Cria a linha a ser escrita no LOG.Outputs[Saída de Coluna Derivada].Columns[TEXTO_LOG]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Escreve o LOG\Escrever arquivo de LOG.Inputs[Entrada de Destino de Arquivo Simples].ExternalColumns[TEXTO_LOG]"
+                      dataType="wstr"
+                      length="341"
+                      name="TEXTO_LOG" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+            </component>
+            <component
+              refId="Package\Escreve o LOG\Leitura da tabela de LOG"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="Origem OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;7"
+              description="Origem OLE DB"
+              name="Leitura da tabela de LOG"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="O tempo em segundos antes que um comando expire. Zero indica uma expiração infinita."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowset">[dbo].[tbl_log]</property>
+                <property
+                  dataType="System.String"
+                  description="Especifica a variável que contém o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="O comando SQL a ser executado."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="A variável que contém o comando SQL a ser executado."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica a página de código de coluna a ser usada quando não há informações de página de código disponíveis a partir da fonte de dados."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forca o uso do valor da propriedade DefaultCodePage durante a descrição dos dados de caractere."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Especifica o modo usado para acessar o banco de dados."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="Os mapeamentos entre os parâmetros no comando SQL e as variáveis."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Escreve o LOG\Leitura da tabela de LOG.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Conexão com o DataLake]"
+                  connectionManagerRefId="Package.ConnectionManagers[Conexão com o DataLake]"
+                  description="A conexão de tempo de execução OLE DB usada para acessar o banco de dados."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB]"
+                  name="Saída de Origem OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[data]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].ExternalColumns[data]"
+                      lineageId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[data]"
+                      name="data"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[mensagem]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].ExternalColumns[mensagem]"
+                      length="255"
+                      lineageId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[mensagem]"
+                      name="mensagem"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[resultado]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversão"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].ExternalColumns[resultado]"
+                      length="30"
+                      lineageId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[resultado]"
+                      name="resultado"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].ExternalColumns[data]"
+                      dataType="dbTimeStamp"
+                      name="data" />
+                    <externalMetadataColumn
+                      refId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].ExternalColumns[mensagem]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="mensagem" />
+                    <externalMetadataColumn
+                      refId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].ExternalColumns[resultado]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="resultado" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB]"
+                  isErrorOut="true"
+                  name="Saída de Erro de Origem OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB].Columns[data]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB].Columns[data]"
+                      name="data" />
+                    <outputColumn
+                      refId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB].Columns[mensagem]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB].Columns[mensagem]"
+                      name="mensagem" />
+                    <outputColumn
+                      refId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB].Columns[resultado]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB].Columns[resultado]"
+                      name="resultado" />
+                    <outputColumn
+                      refId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Escreve o LOG.Paths[Classificar Saída]"
+              endId="Package\Escreve o LOG\Classificar por data.Inputs[Classificar Entrada]"
+              name="Classificar Saída"
+              startId="Package\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída]" />
+            <path
+              refId="Package\Escreve o LOG.Paths[Classificar Saída1]"
+              endId="Package\Escreve o LOG\Converter a data em string.Inputs[Entrada de Conversão de Dados]"
+              name="Classificar Saída"
+              startId="Package\Escreve o LOG\Classificar por data.Outputs[Classificar Saída]" />
+            <path
+              refId="Package\Escreve o LOG.Paths[Saída de Coluna Derivada]"
+              endId="Package\Escreve o LOG\Escrever arquivo de LOG.Inputs[Entrada de Destino de Arquivo Simples]"
+              name="Saída de Coluna Derivada"
+              startId="Package\Escreve o LOG\Cria a linha a ser escrita no LOG.Outputs[Saída de Coluna Derivada]" />
+            <path
+              refId="Package\Escreve o LOG.Paths[Saída de Conversão de Dados]"
+              endId="Package\Escreve o LOG\Cria a linha a ser escrita no LOG.Inputs[Entrada de Coluna Derivada]"
+              name="Saída de Conversão de Dados"
+              startId="Package\Escreve o LOG\Converter a data em string.Outputs[Saída de Conversão de Dados]" />
+            <path
+              refId="Package\Escreve o LOG.Paths[Saída de Origem OLE DB]"
+              endId="Package\Escreve o LOG\Eliminar linhas repetidas.Inputs[Classificar Entrada]"
+              name="Saída de Origem OLE DB"
+              startId="Package\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restrição]"
+      DTS:CreationName=""
+      DTS:DTSID="{04FF303B-5488-4563-9186-7937BF3499D1}"
+      DTS:From="Package\Carga do Data Lake"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restrição"
+      DTS:To="Package\Escreve o LOG" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restrição 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{E2ED21AD-0B12-4F0A-8B16-085B36C252F7}"
+      DTS:From="Package\Carga do Data Lake"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restrição 1"
+      DTS:To="Package\Carga do Data Warehouse" />
+  </DTS:PrecedenceConstraints>
+  <DTS:EventHandlers>
+    <DTS:EventHandler
+      DTS:refId="Package.EventHandlers[OnError]"
+      DTS:CreationName="OnError"
+      DTS:DTSID="{43A30D9E-4EB4-4F05-B9E6-BF155D1C6A1D}"
+      DTS:EventID="0"
+      DTS:EventName="OnError"
+      DTS:LocaleID="-1">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:Description="A propriedade propagate do evento"
+          DTS:DTSID="{579F241A-9B04-448C-9BEB-50A89572470F}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="System"
+          DTS:ObjectName="Propagate">
+          <DTS:VariableValue
+            DTS:DataType="11">-1</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Escreve o LOG"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Tarefa Fluxo de Dados"
+          DTS:DTSID="{40953f04-fd5f-4656-834d-de75a08461fa}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Escreve o LOG"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:EventHandlers>
+            <DTS:EventHandler
+              DTS:refId="Package.EventHandlers[OnError]\Escreve o LOG.EventHandlers[OnError]"
+              DTS:CreationName="OnError"
+              DTS:DTSID="{b91f0768-5610-48d9-ab56-3f5fd8bb79ea}"
+              DTS:EventID="114688"
+              DTS:EventName="OnError"
+              DTS:LocaleID="-1">
+              <DTS:Variables>
+                <DTS:Variable
+                  DTS:CreationName=""
+                  DTS:Description="A propriedade propagate do evento"
+                  DTS:DTSID="{26ea6ef3-1c6b-4dfa-92b9-812cde2d0fd7}"
+                  DTS:IncludeInDebugDump="6789"
+                  DTS:Namespace="System"
+                  DTS:ObjectName="Propagate">
+                  <DTS:VariableValue
+                    DTS:DataType="11">-1</DTS:VariableValue>
+                </DTS:Variable>
+              </DTS:Variables>
+              <DTS:Executables />
+            </DTS:EventHandler>
+          </DTS:EventHandlers>
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data"
+                  componentClassID="Microsoft.Sort"
+                  contactInfo="Classificar;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;1"
+                  description="Classifica os dados de entrada em ordem crescente ou decrescente quando eles não podem ser classificados em sua origem. Por exemplo, classifique dados de vendas por 'customer id' antes de eles serem gravados em um arquivo simples e entregues a outro departamento. Observação: essa transformação não é recomendável para fluxos de dados grandes."
+                  name="Classificar por data"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indica se a transformação Classificação remove linhas com valores de classificação duplicados."
+                      name="EliminateDuplicates">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Especifica o número máximo de threads a usar para classificação."
+                      expressionType="Notify"
+                      name="MaximumThreads">-1</property>
+                  </properties>
+                  <inputs>
+                    <input
+                      refId="Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data.Inputs[Classificar Entrada]"
+                      name="Classificar Entrada">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data.Inputs[Classificar Entrada].Columns[data]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="data"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[data]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Especifica as opções de comparação para os dados de caractere."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Especifica a ordem de classificação da coluna."
+                              name="NewSortKeyPosition">1</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data.Inputs[Classificar Entrada].Columns[mensagem]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="mensagem"
+                          cachedSortKeyPosition="1"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[mensagem]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Especifica as opções de comparação para os dados de caractere."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Especifica a ordem de classificação da coluna."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data.Inputs[Classificar Entrada].Columns[resultado]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="30"
+                          cachedName="resultado"
+                          cachedSortKeyPosition="2"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[resultado]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Especifica as opções de comparação para os dados de caractere."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Especifica a ordem de classificação da coluna."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data.Outputs[Classificar Saída]"
+                      isSorted="true"
+                      name="Classificar Saída">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[data]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[data]"
+                          name="data"
+                          sortKeyPosition="1">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Especifica o identificador de linhagem da coluna de entrada associada à coluna de saída."
+                              name="SortColumnId">#{Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[data]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[mensagem]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[mensagem]"
+                          name="mensagem">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Especifica o identificador de linhagem da coluna de entrada associada à coluna de saída."
+                              name="SortColumnId">#{Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[mensagem]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[resultado]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[resultado]"
+                          name="resultado">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Especifica o identificador de linhagem da coluna de entrada associada à coluna de saída."
+                              name="SortColumnId">#{Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[resultado]}</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package.EventHandlers[OnError]\Escreve o LOG\Converter a data em string"
+                  componentClassID="Microsoft.DataConvert"
+                  contactInfo="Conversão de Dados;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;0"
+                  description="Conversão de Dados"
+                  name="Converter a data em string"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package.EventHandlers[OnError]\Escreve o LOG\Converter a data em string.Inputs[Entrada de Conversão de Dados]"
+                      name="Entrada de Conversão de Dados">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Converter a data em string.Inputs[Entrada de Conversão de Dados].Columns[data]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="data"
+                          cachedSortKeyPosition="1"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[data]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package.EventHandlers[OnError]\Escreve o LOG\Converter a data em string.Outputs[Saída de Conversão de Dados]"
+                      exclusionGroup="1"
+                      name="Saída de Conversão de Dados"
+                      synchronousInputId="Package.EventHandlers[OnError]\Escreve o LOG\Converter a data em string.Inputs[Entrada de Conversão de Dados]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Converter a data em string.Outputs[Saída de Conversão de Dados].Columns[DATA_CONVERTIDA]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversão"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Converter a data em string.Outputs[Saída de Conversão de Dados].Columns[DATA_CONVERTIDA]"
+                          name="DATA_CONVERTIDA"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Especifica a coluna de entrada usada como a origem dois dados para a conversão."
+                              name="SourceInputColumnLineageID">#{Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[data]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indica se a coluna usa as rotinas de análise de localidade neutro mais rápidas."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package.EventHandlers[OnError]\Escreve o LOG\Converter a data em string.Outputs[Saída de Erro de Conversão de Dados]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Saída de Erro de Conversão de Dados"
+                      synchronousInputId="Package.EventHandlers[OnError]\Escreve o LOG\Converter a data em string.Inputs[Entrada de Conversão de Dados]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Converter a data em string.Outputs[Saída de Erro de Conversão de Dados].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Converter a data em string.Outputs[Saída de Erro de Conversão de Dados].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Converter a data em string.Outputs[Saída de Erro de Conversão de Dados].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Converter a data em string.Outputs[Saída de Erro de Conversão de Dados].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package.EventHandlers[OnError]\Escreve o LOG\Cria a linha a ser escrita no LOG"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Coluna Derivada;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;0"
+                  description="Cria novos valores de coluna aplicando expressões a colunas de entrada da transformação. Crie novas colunas ou substitua as existentes. Por exemplo, concatene os valores das colunas 'first name' e 'last name' para formar uma coluna 'full name'."
+                  name="Cria a linha a ser escrita no LOG"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package.EventHandlers[OnError]\Escreve o LOG\Cria a linha a ser escrita no LOG.Inputs[Entrada de Coluna Derivada]"
+                      description="Entrada para a Transformação Coluna Derivada"
+                      name="Entrada de Coluna Derivada">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Cria a linha a ser escrita no LOG.Inputs[Entrada de Coluna Derivada].Columns[mensagem]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="mensagem"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[mensagem]" />
+                        <inputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Cria a linha a ser escrita no LOG.Inputs[Entrada de Coluna Derivada].Columns[resultado]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="30"
+                          cachedName="resultado"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[resultado]" />
+                        <inputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Cria a linha a ser escrita no LOG.Inputs[Entrada de Coluna Derivada].Columns[DATA_CONVERTIDA]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="DATA_CONVERTIDA"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Converter a data em string.Outputs[Saída de Conversão de Dados].Columns[DATA_CONVERTIDA]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package.EventHandlers[OnError]\Escreve o LOG\Cria a linha a ser escrita no LOG.Outputs[Saída de Coluna Derivada]"
+                      description="Saída Padrão da Transformação Coluna Derivada"
+                      exclusionGroup="1"
+                      name="Saída de Coluna Derivada"
+                      synchronousInputId="Package.EventHandlers[OnError]\Escreve o LOG\Cria a linha a ser escrita no LOG.Inputs[Entrada de Coluna Derivada]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Cria a linha a ser escrita no LOG.Outputs[Saída de Coluna Derivada].Columns[TEXTO_LOG]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Computação"
+                          errorRowDisposition="FailComponent"
+                          length="341"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Cria a linha a ser escrita no LOG.Outputs[Saída de Coluna Derivada].Columns[TEXTO_LOG]"
+                          name="TEXTO_LOG"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Expressão de Coluna Derivada"
+                              name="Expression">#{Package.EventHandlers[OnError]\Escreve o LOG\Converter a data em string.Outputs[Saída de Conversão de Dados].Columns[DATA_CONVERTIDA]} + " : (" + #{Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[resultado]} + ") " + #{Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data.Outputs[Classificar Saída].Columns[mensagem]}</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Expressão Amigável de Coluna Derivada"
+                              expressionType="Notify"
+                              name="FriendlyExpression">DATA_CONVERTIDA + " : (" + resultado + ") " + mensagem</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package.EventHandlers[OnError]\Escreve o LOG\Cria a linha a ser escrita no LOG.Outputs[Saída de Erro de Coluna Derivada]"
+                      description="Saída de Erro da Transformação Coluna Derivada"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Saída de Erro de Coluna Derivada"
+                      synchronousInputId="Package.EventHandlers[OnError]\Escreve o LOG\Cria a linha a ser escrita no LOG.Inputs[Entrada de Coluna Derivada]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Cria a linha a ser escrita no LOG.Outputs[Saída de Erro de Coluna Derivada].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Cria a linha a ser escrita no LOG.Outputs[Saída de Erro de Coluna Derivada].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Cria a linha a ser escrita no LOG.Outputs[Saída de Erro de Coluna Derivada].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Cria a linha a ser escrita no LOG.Outputs[Saída de Erro de Coluna Derivada].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas"
+                  componentClassID="Microsoft.Sort"
+                  contactInfo="Classificar;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;1"
+                  description="Classifica os dados de entrada em ordem crescente ou decrescente quando eles não podem ser classificados em sua origem. Por exemplo, classifique dados de vendas por 'customer id' antes de eles serem gravados em um arquivo simples e entregues a outro departamento. Observação: essa transformação não é recomendável para fluxos de dados grandes."
+                  name="Eliminar linhas repetidas"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indica se a transformação Classificação remove linhas com valores de classificação duplicados."
+                      name="EliminateDuplicates">true</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Especifica o número máximo de threads a usar para classificação."
+                      expressionType="Notify"
+                      name="MaximumThreads">-1</property>
+                  </properties>
+                  <inputs>
+                    <input
+                      refId="Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas.Inputs[Classificar Entrada]"
+                      name="Classificar Entrada">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas.Inputs[Classificar Entrada].Columns[data]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="data"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[data]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Especifica as opções de comparação para os dados de caractere."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Especifica a ordem de classificação da coluna."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas.Inputs[Classificar Entrada].Columns[mensagem]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="255"
+                          cachedName="mensagem"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[mensagem]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Especifica as opções de comparação para os dados de caractere."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Especifica a ordem de classificação da coluna."
+                              name="NewSortKeyPosition">1</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas.Inputs[Classificar Entrada].Columns[resultado]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="30"
+                          cachedName="resultado"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[resultado]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Especifica as opções de comparação para os dados de caractere."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Especifica a ordem de classificação da coluna."
+                              name="NewSortKeyPosition">2</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída]"
+                      isSorted="true"
+                      name="Classificar Saída">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[data]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[data]"
+                          name="data">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Especifica o identificador de linhagem da coluna de entrada associada à coluna de saída."
+                              name="SortColumnId">#{Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[data]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[mensagem]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[mensagem]"
+                          name="mensagem"
+                          sortKeyPosition="1">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Especifica o identificador de linhagem da coluna de entrada associada à coluna de saída."
+                              name="SortColumnId">#{Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[mensagem]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[resultado]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída].Columns[resultado]"
+                          name="resultado"
+                          sortKeyPosition="2">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Especifica o identificador de linhagem da coluna de entrada associada à coluna de saída."
+                              name="SortColumnId">#{Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[resultado]}</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package.EventHandlers[OnError]\Escreve o LOG\Escrever arquivo de LOG"
+                  componentClassID="Microsoft.FlatFileDestination"
+                  contactInfo="Destino de Arquivo Simples;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;1"
+                  description="Destino de Arquivo Simples"
+                  localeId="1046"
+                  name="Escrever arquivo de LOG"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Especifica se os dados substituirão o arquivo de destino ou serão anexados a ele."
+                      name="Overwrite">true</property>
+                    <property
+                      dataType="System.Null"
+                      description="Especifica o texto a ser gravado no arquivo de destino antes da gravação de quaisquer dados."
+                      expressionType="Notify"
+                      name="Header" />
+                    <property
+                      dataType="System.Boolean"
+                      description="Quando o qualificador de texto está habilitado, ele especifica se o qualificador de texto nos dados gravados no arquivo de destino serão de saída ou não."
+                      name="EscapeQualifier">false</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package.EventHandlers[OnError]\Escreve o LOG\Escrever arquivo de LOG.Connections[FlatFileConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Conexão com o arquivo de LOG]"
+                      connectionManagerRefId="Package.ConnectionManagers[Conexão com o arquivo de LOG]"
+                      name="FlatFileConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package.EventHandlers[OnError]\Escreve o LOG\Escrever arquivo de LOG.Inputs[Entrada de Destino de Arquivo Simples]"
+                      hasSideEffects="true"
+                      name="Entrada de Destino de Arquivo Simples">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Escrever arquivo de LOG.Inputs[Entrada de Destino de Arquivo Simples].Columns[TEXTO_LOG]"
+                          cachedDataType="wstr"
+                          cachedLength="341"
+                          cachedName="TEXTO_LOG"
+                          externalMetadataColumnId="Package.EventHandlers[OnError]\Escreve o LOG\Escrever arquivo de LOG.Inputs[Entrada de Destino de Arquivo Simples].ExternalColumns[TEXTO_LOG]"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Cria a linha a ser escrita no LOG.Outputs[Saída de Coluna Derivada].Columns[TEXTO_LOG]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Escrever arquivo de LOG.Inputs[Entrada de Destino de Arquivo Simples].ExternalColumns[TEXTO_LOG]"
+                          dataType="wstr"
+                          length="341"
+                          name="TEXTO_LOG" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                </component>
+                <component
+                  refId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="Origem OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Todos os Direitos Reservados; http://www.microsoft.com/sql/support;7"
+                  description="Origem OLE DB"
+                  name="Leitura da tabela de LOG"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="O tempo em segundos antes que um comando expire. Zero indica uma expiração infinita."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Especifica o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                      name="OpenRowset">[dbo].[tbl_log]</property>
+                    <property
+                      dataType="System.String"
+                      description="Especifica a variável que contém o nome do objeto de banco de dados usado para abrir um conjunto de linhas."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="O comando SQL a ser executado."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="A variável que contém o comando SQL a ser executado."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Especifica a página de código de coluna a ser usada quando não há informações de página de código disponíveis a partir da fonte de dados."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forca o uso do valor da propriedade DefaultCodePage durante a descrição dos dados de caractere."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Especifica o modo usado para acessar o banco de dados."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Os mapeamentos entre os parâmetros no comando SQL e as variáveis."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Conexão com o DataLake]"
+                      connectionManagerRefId="Package.ConnectionManagers[Conexão com o DataLake]"
+                      description="A conexão de tempo de execução OLE DB usada para acessar o banco de dados."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB]"
+                      name="Saída de Origem OLE DB">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[data]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversão"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].ExternalColumns[data]"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[data]"
+                          name="data"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[mensagem]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversão"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].ExternalColumns[mensagem]"
+                          length="255"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[mensagem]"
+                          name="mensagem"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[resultado]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversão"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].ExternalColumns[resultado]"
+                          length="30"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].Columns[resultado]"
+                          name="resultado"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].ExternalColumns[data]"
+                          dataType="dbTimeStamp"
+                          name="data" />
+                        <externalMetadataColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].ExternalColumns[mensagem]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="mensagem" />
+                        <externalMetadataColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB].ExternalColumns[resultado]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          name="resultado" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB]"
+                      isErrorOut="true"
+                      name="Saída de Erro de Origem OLE DB">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB].Columns[data]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB].Columns[data]"
+                          name="data" />
+                        <outputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB].Columns[mensagem]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB].Columns[mensagem]"
+                          name="mensagem" />
+                        <outputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB].Columns[resultado]"
+                          codePage="1252"
+                          dataType="str"
+                          length="30"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB].Columns[resultado]"
+                          name="resultado" />
+                        <outputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Erro de Origem OLE DB].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package.EventHandlers[OnError]\Escreve o LOG.Paths[Classificar Saída]"
+                  endId="Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data.Inputs[Classificar Entrada]"
+                  name="Classificar Saída"
+                  startId="Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas.Outputs[Classificar Saída]" />
+                <path
+                  refId="Package.EventHandlers[OnError]\Escreve o LOG.Paths[Classificar Saída1]"
+                  endId="Package.EventHandlers[OnError]\Escreve o LOG\Converter a data em string.Inputs[Entrada de Conversão de Dados]"
+                  name="Classificar Saída"
+                  startId="Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data.Outputs[Classificar Saída]" />
+                <path
+                  refId="Package.EventHandlers[OnError]\Escreve o LOG.Paths[Saída de Coluna Derivada]"
+                  endId="Package.EventHandlers[OnError]\Escreve o LOG\Escrever arquivo de LOG.Inputs[Entrada de Destino de Arquivo Simples]"
+                  name="Saída de Coluna Derivada"
+                  startId="Package.EventHandlers[OnError]\Escreve o LOG\Cria a linha a ser escrita no LOG.Outputs[Saída de Coluna Derivada]" />
+                <path
+                  refId="Package.EventHandlers[OnError]\Escreve o LOG.Paths[Saída de Conversão de Dados]"
+                  endId="Package.EventHandlers[OnError]\Escreve o LOG\Cria a linha a ser escrita no LOG.Inputs[Entrada de Coluna Derivada]"
+                  name="Saída de Conversão de Dados"
+                  startId="Package.EventHandlers[OnError]\Escreve o LOG\Converter a data em string.Outputs[Saída de Conversão de Dados]" />
+                <path
+                  refId="Package.EventHandlers[OnError]\Escreve o LOG.Paths[Saída de Origem OLE DB]"
+                  endId="Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas.Inputs[Classificar Entrada]"
+                  name="Saída de Origem OLE DB"
+                  startId="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG.Outputs[Saída de Origem OLE DB]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:EventHandler>
+  </DTS:EventHandlers>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta seção CDATA contém as informações de layout do pacote. A seção inclui informações como coordenadas (x,y), largura e altura.-->
+<!--Se você editar manualmente esta seção e cometer algum erro, poderá excluí-la. -->
+<!--O pacote ainda poderá ser carregado normalmente, mas as informações de layout anteriores serão perdidas e o designer reorganizará automaticamente os elementos na superfície de design.-->
+<Objects
+  Version="8">
+  <!--Cada nó abaixo conterá propriedades que não afetam o comportamento em tempo de execução.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Carga do Data Lake"
+          TopLeft="313,101" />
+        <NodeLayout
+          Size="154,42"
+          Id="Package\Escreve o LOG"
+          TopLeft="314,200" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restrição]"
+          TopLeft="401.5,143">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-10.5,57"
+              Start="0,0"
+              End="-10.5,49.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,24.5"
+                    Point2="0,28.5"
+                    Point3="-4,28.5" />
+                  <mssgle:LineSegment
+                    End="-6.5,28.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-6.5,28.5"
+                    Point2="-10.5,28.5"
+                    Point3="-10.5,32.5" />
+                  <mssgle:LineSegment
+                    End="-10.5,49.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="209,42"
+          Id="Package\Carga do Data Warehouse"
+          TopLeft="576,104" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restrição 1]"
+          TopLeft="490,123.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="86,0"
+              Start="0,0"
+              End="78.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="78.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <DtsEventHandler
+    design-time-name="Package.EventHandlers[OnError]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="154,42"
+          Id="Package.EventHandlers[OnError]\Escreve o LOG"
+          TopLeft="319,124" />
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
+  <TaskHost
+    design-time-name="Package.EventHandlers[OnError]\Escreve o LOG">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="238,42"
+          Id="Package.EventHandlers[OnError]\Escreve o LOG\Cria a linha a ser escrita no LOG"
+          TopLeft="236,486" />
+        <NodeLayout
+          Size="203,42"
+          Id="Package.EventHandlers[OnError]\Escreve o LOG\Escrever arquivo de LOG"
+          TopLeft="299,594" />
+        <NodeLayout
+          Size="199,42"
+          Id="Package.EventHandlers[OnError]\Escreve o LOG\Eliminar linhas repetidas"
+          TopLeft="224,216" />
+        <NodeLayout
+          Size="209,42"
+          Id="Package.EventHandlers[OnError]\Escreve o LOG\Converter a data em string"
+          TopLeft="225,387" />
+        <NodeLayout
+          Size="202,42"
+          Id="Package.EventHandlers[OnError]\Escreve o LOG\Leitura da tabela de LOG"
+          TopLeft="220,127" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package.EventHandlers[OnError]\Escreve o LOG\Classificar por data"
+          TopLeft="233,299" />
+        <EdgeLayout
+          Id="Package.EventHandlers[OnError]\Escreve o LOG.Paths[Saída de Origem OLE DB]"
+          TopLeft="322.25,169">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,47"
+              Start="0,0"
+              End="0,39.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.EventHandlers[OnError]\Escreve o LOG.Paths[Saída de Conversão de Dados]"
+          TopLeft="329.5,429">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="25.5,57"
+              Start="0,0"
+              End="25.5,49.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,24.5"
+                    Point2="0,28.5"
+                    Point3="4,28.5" />
+                  <mssgle:LineSegment
+                    End="21.5,28.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="21.5,28.5"
+                    Point2="25.5,28.5"
+                    Point3="25.5,32.5" />
+                  <mssgle:LineSegment
+                    End="25.5,49.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.EventHandlers[OnError]\Escreve o LOG.Paths[Saída de Coluna Derivada]"
+          TopLeft="355,528">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="45.5,66"
+              Start="0,0"
+              End="45.5,58.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,29"
+                    Point2="0,33"
+                    Point3="4,33" />
+                  <mssgle:LineSegment
+                    End="41.5,33" />
+                  <mssgle:CubicBezierSegment
+                    Point1="41.5,33"
+                    Point2="45.5,33"
+                    Point3="45.5,37" />
+                  <mssgle:LineSegment
+                    End="45.5,58.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.EventHandlers[OnError]\Escreve o LOG.Paths[Classificar Saída1]"
+          TopLeft="319.5,341">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="10,46"
+              Start="0,0"
+              End="10,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19"
+                    Point2="0,23"
+                    Point3="4,23" />
+                  <mssgle:LineSegment
+                    End="6,23" />
+                  <mssgle:CubicBezierSegment
+                    Point1="6,23"
+                    Point2="10,23"
+                    Point3="10,27" />
+                  <mssgle:LineSegment
+                    End="10,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.EventHandlers[OnError]\Escreve o LOG.Paths[Classificar Saída]"
+          TopLeft="321.5,258">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41"
+              Start="0,0"
+              End="0,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <TaskHost
+    design-time-name="Package\Escreve o LOG">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="238,42"
+          Id="Package\Escreve o LOG\Cria a linha a ser escrita no LOG"
+          TopLeft="236,486" />
+        <NodeLayout
+          Size="203,42"
+          Id="Package\Escreve o LOG\Escrever arquivo de LOG"
+          TopLeft="299,594" />
+        <NodeLayout
+          Size="199,42"
+          Id="Package\Escreve o LOG\Eliminar linhas repetidas"
+          TopLeft="224,216" />
+        <NodeLayout
+          Size="209,42"
+          Id="Package\Escreve o LOG\Converter a data em string"
+          TopLeft="225,387" />
+        <NodeLayout
+          Size="202,42"
+          Id="Package\Escreve o LOG\Leitura da tabela de LOG"
+          TopLeft="220,127" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Escreve o LOG\Classificar por data"
+          TopLeft="233,299" />
+        <EdgeLayout
+          Id="Package\Escreve o LOG.Paths[Saída de Origem OLE DB]"
+          TopLeft="322.25,169">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,47"
+              Start="0,0"
+              End="0,39.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Escreve o LOG.Paths[Saída de Conversão de Dados]"
+          TopLeft="329.5,429">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="25.5,57"
+              Start="0,0"
+              End="25.5,49.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,24.5"
+                    Point2="0,28.5"
+                    Point3="4,28.5" />
+                  <mssgle:LineSegment
+                    End="21.5,28.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="21.5,28.5"
+                    Point2="25.5,28.5"
+                    Point3="25.5,32.5" />
+                  <mssgle:LineSegment
+                    End="25.5,49.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Escreve o LOG.Paths[Saída de Coluna Derivada]"
+          TopLeft="355,528">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="45.5,66"
+              Start="0,0"
+              End="45.5,58.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,29"
+                    Point2="0,33"
+                    Point3="4,33" />
+                  <mssgle:LineSegment
+                    End="41.5,33" />
+                  <mssgle:CubicBezierSegment
+                    Point1="41.5,33"
+                    Point2="45.5,33"
+                    Point3="45.5,37" />
+                  <mssgle:LineSegment
+                    End="45.5,58.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Escreve o LOG.Paths[Classificar Saída1]"
+          TopLeft="319.5,341">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="10,46"
+              Start="0,0"
+              End="10,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19"
+                    Point2="0,23"
+                    Point3="4,23" />
+                  <mssgle:LineSegment
+                    End="6,23" />
+                  <mssgle:CubicBezierSegment
+                    Point1="6,23"
+                    Point2="10,23"
+                    Point3="10,27" />
+                  <mssgle:LineSegment
+                    End="10,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Escreve o LOG.Paths[Classificar Saída]"
+          TopLeft="321.5,258">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41"
+              Start="0,0"
+              End="0,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Escreve o LOG\Leitura da tabela de LOG">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
